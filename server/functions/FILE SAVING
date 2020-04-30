@@ -1,0 +1,24 @@
+
+const fs = require("fs");
+
+
+// **************************
+// FILE SAVING TO FIND PRICE
+// **************************
+// let priceInfo = JSON.parse($("#storefront-webpack-json-data").html());
+//
+// fs.writeFile("./functions/data1.json", JSON.stringify(priceInfo), (err) => {
+//     if (err) throw err;
+//     console.log('The file has been saved!');
+// });
+
+// ***********************************************************************************
+// FILE SAVING TO FIND SPECIFIC ID/CLASS WHERE PRICE IS STORED TO JSON.PARSE CORRECTLY
+// ***********************************************************************************
+// const $ = await fetchData(edittedSearchTerm);
+// let priceInfo = JSON.stringify($("body").html());
+
+// fs.writeFile("./functions/data1.json", JSON.parse(priceInfo), (err) => {
+//     if (err) throw err;
+//     console.log('The file has been saved!');
+// });
