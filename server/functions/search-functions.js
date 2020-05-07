@@ -3,11 +3,16 @@ const { getHumble } = require("./humble-functions");
 const { getGMG } = require("./gmg-functions");
 const { getGOG } = require("./gog-functions");
 
+const { checkFavorites } = require("./favorites-functions");
+
 const getGame = async req => {
-    const { searched, steam, humble, gmg, gog} = req.params;
+    const { searched, steam, humble, gmg, gog, _id} = req.params;
+
+    // will be sent to the front end
+    let returnValue;
     
-    // will be sent to the frontend
     let results = [];
+    let favorites;
 
     if (steam === "true") {
         const steamResults = await getSteam(searched);
@@ -33,7 +38,23 @@ const getGame = async req => {
         results.push(gogResults);
     }
 
-    return {results};
+    // default return value to no favorite found
+    returnValue = {results: results, isFavorite: false}
+
+    if(_id !== "undefined") {
+        favorites = await checkFavorites(_id);
+        if (favorites && favorites.length) {
+            await favorites.forEach(favorite => {
+                if (favorite.userInput === searched && favorite.steam === steam && favorite.humble === humble
+                    && favorite.gmg === gmg && favorite.gog === gog) {
+                        // sets return value to favorite being found
+                        returnValue = {results: results, isFavorite: true}
+                    }
+            })   
+        }
+    }
+    
+    return returnValue;
 }
 
 module.exports = {

@@ -10,6 +10,8 @@ const secondFetch = async (appId, searched) => {
             .then(res => JSON.parse(res))
             .then( (data) => {
                 searched = editSearchTerm(searched);
+
+                // this is relevant for the game's URL
                 searched = searched.replace(/-/g, "_");
 
                 data[appId].data.price_overview ? 
@@ -22,8 +24,7 @@ const secondFetch = async (appId, searched) => {
             })
     }
     catch {
-        console.log("broke 2")
-        firstFetch(searched)
+        console.log("Error in secondFetch");
     }
     return info;
 }
@@ -31,53 +32,57 @@ const secondFetch = async (appId, searched) => {
 const firstFetch = async (searched) => {
     try {
         // will be returned by the function
-        let returnGame;
+        let returnApps;
 
         // endpoint that returns the entire steam catalogue
-        await request("https://api.steampowered.com/ISteamApps/GetAppList/v2/?")
+        await request("https://api.steampowered.com/ISteamApps/GetAppList/v2")
             .then(res => JSON.parse(res))
             .then(data => {
                 const {applist} = data;
                 const {apps} = applist;
-                return apps;
+                returnApps = apps;
             })
-            .then(apps => {
-                if (!apps) {
-                    firstFetch(searched);
-                }
-                apps.filter(app => {
-                    // filtering for the exact game based on it's name and string length
-                    if (app.name.toLowerCase().includes(searched.toLowerCase()) && app.name.length === searched.length) {
-                        returnGame = app;
-                    }
-                })
-            })
-            
-            return returnGame;
+            return returnApps;
         }
         catch {
-            // calls back the function because the endpoint will occasionally return an empty object 
-            // if it has received too many third party pings (many other websites and apps use this endpoint)
-        console.log("broke 1")
-        firstFetch(searched);
+            console.log("Error in firstFetch");
         }
 }
 
 const getSteam = async (searched) => {
     // fetches on the first API to receive the entire list of games then filters through to find the specific one requested
-    const stepOne = await firstFetch(searched);
+    let stepOne;
     
-    const appId = stepOne.appid.toString();
+    // calls back the function because the API will occasionally return an empty object 
+    // if it has received too many third party pings (many other websites and apps use this API)    
+    do {
+        stepOne = await firstFetch(searched);
 
-    // fetches on the second API to receive the game's details
-    const stepTwo = await secondFetch(appId, searched);
-
+        // ***********************************
+        // TEST WITH :  ™
+        // ***********************************
+    }
+    while (!stepOne.length)
+    
+    const searchedGame = stepOne.filter(app => {
+        // filtering for the exact game based on it's name and string length
+        if (app.name.toLowerCase().includes(searched.toLowerCase()) && app.name.length === searched.length) {
+            return app;
+        }
+    })
+    
     // if the game is not found, returns null
-    if (!stepTwo) {
+    if (!searchedGame.length) {
         return {current: null, full: null, discount: null}
     }
+    else {
+        const appId = searchedGame[0].appid.toString();
 
-    return stepTwo;
+        // fetches on the second API to receive the game's details
+        const stepTwo = await secondFetch(appId, searched);
+
+        return stepTwo;
+    }
 }
 
 module.exports = {

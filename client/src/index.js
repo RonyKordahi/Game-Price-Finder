@@ -5,6 +5,7 @@ import App from './components/App'
 import {Auth0Provider} from "./components/auth0/auth0"
 import history from "./components/auth0/history"
 import config from "./components/auth0/config.json"
+import {FavoriteProvider} from "./FavoriteContext"
 
 const onRedirectCallback = appState => {
   history.push(
@@ -22,7 +23,9 @@ ReactDOM.render(
       redirect_uri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
     >
-      <App />
+      <FavoriteProvider>
+        <App />
+      </FavoriteProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')

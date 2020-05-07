@@ -1,67 +1,65 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 import { useAuth0 } from "../auth0/auth0";
+import FavoriteContext from "../../FavoriteContext"
 
 const ProfilePage = () => {
     const { user } = useAuth0();
 
-    const [favorites, setFavorites] = useState([]);
-
-    useEffect(() => {
-        if (user) {
-            let _id;
-            const id = user.sub.split("|")
-            _id = id[1];
-        
-            fetch(`/get/${_id}`,{
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept" : "application/json"
-                },
-            })
-                .then(res => res.json())
-                .then(data => setFavorites(data))
-        }
-    }, [])
+    const { state } = useContext(FavoriteContext);
 
     return (
         <>
         {user && <Profile>
-            <ProfilePic src={user.picture} alt="Profile" />
-
             <h1>Welcome to your profile page {user.given_name}!</h1>
-            
-            <h2>Your favorite searches</h2>
-            {favorites.length ? 
+            <ProfilePic src={user.picture} alt="Profile" />
+            <h2>Your favorite searches :</h2>
+
+            {/* conditional rendering of the user's favorites */}
+            {state.length ? 
             <>
-                {favorites.map(result => {
-                    return <>
-                        <Link to={`/results/${result.userInput}/${result.steam}/${result.humble}/${result.gmg}/${result.gog}`}
+            <GameWrap>
+                {state.map(result => {
+                    return <FavoriteGame to={`/results/${result.userInput}/${result.steam}/${result.humble}/${result.gmg}/${result.gog}`}
                         key={Math.random() * 10000000}
                         className="hover">
                             {result.userInput}
-                        </Link>
-                    </>
+                        </FavoriteGame>
                 })}
+            </GameWrap>
             </> : 
-            <div>No favorites yet!</div>}
+            <div>You have no favorites yet!</div>}
         </Profile>}
         </>
     );
 };
 
+const FavoriteGame = styled(Link) `
+    margin-left: 5px;
+    margin-bottom: 5px;
+`
+
+const GameWrap = styled.div `
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    justify-content: center;
+    margin: auto;
+`
+
 const Profile = styled.div `
     text-align: center;
 
-    h1 {
-        margin-bottom: 25px;
+    h1, h2 {
+        margin-top: 20px;
+        margin-bottom: 15px;
     }
 `
 
 const ProfilePic = styled.img `
-    height: 350px;
+    height: 300px;
     border-radius: 1000px;
     margin: 20px 0px;
 `

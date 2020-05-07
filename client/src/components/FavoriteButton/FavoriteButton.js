@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from "styled-components"
 
 import { useAuth0 } from "../auth0/auth0"
+import FavoriteContext from "../../FavoriteContext"
 
 function FavoriteButton({favorite, userInput, steam, humble, gmg, gog}) {
     
+    const {actions: { addFavorite, removeFavorite }} = useContext(FavoriteContext);
+
     const { user } = useAuth0();
     const id = user.sub.split("|")
     const _id = id[1];
@@ -21,25 +24,12 @@ function FavoriteButton({favorite, userInput, steam, humble, gmg, gog}) {
             }
         }
         
+        // runs the appropriate action based on the status of the favorite state
         if (favorite) {
-            fetch("/add/favorite", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept" : "application/json"
-                },
-                body: JSON.stringify(body),
-            })
+            addFavorite(body);
         }
         else {
-            fetch("/remove/favorite", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept" : "application/json"
-                },
-                body: JSON.stringify(body),
-            })
+            removeFavorite(body)
         }
     }, [favorite])
 

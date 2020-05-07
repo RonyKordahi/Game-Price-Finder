@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const { getGame } = require("./functions/search-functions");
+
 const { addFavorite, 
         removeFavorite, 
         getFavorites, } = require("./functions/favorites-functions");
@@ -26,16 +27,16 @@ express()
     next();
     })
     // present by default
-    .use(morgan('tiny'))
+    .use(morgan('dev'))
     .use(express.static('./server/assets'))
     .use(bodyParser.json())
     .use(express.urlencoded({ extended: false }))
     .use('/', express.static(__dirname + '/'))
 
     // endpoints
-    .get("/search/:searched/:steam/:humble/:gmg/:gog", async (req, res) => res.send(results = await getGame(req)))
-    .post("/add/favorite", (req, res) => addFavorite(req))
-    .post("/remove/favorite", (req, res) => removeFavorite(req))
+    .get("/search/:searched/:steam/:humble/:gmg/:gog/:_id", async (req, res) => res.send(results = await getGame(req)))
+    .post("/add/favorite", (req, res) => res.send(addFavorite(req)))
+    .post("/remove/favorite", (req, res) => res.send(removeFavorite(req)))
     .get("/get/:_id", async (req, res) => res.send(results = await getFavorites(req)))
 
     .listen(PORT, () => console.info(`Listening on port ${PORT}`));

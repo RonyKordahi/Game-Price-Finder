@@ -1,37 +1,40 @@
-import React, {useState} from 'react'
-import { useHistory } from "react-router-dom"
+import React, { useEffect, useContext } from 'react'
+import styled from "styled-components"
+import SearchBar from '../SearchBar';
+
+import FavoriteContext from "../../FavoriteContext"
+import { useAuth0 } from "../auth0/auth0";
 
 function Homepage() {
 
-    const [userInput, setUserInput] = useState("");
-    const [filters, setFilters] = useState({Steam: true, Humble: true, GMG: true, GOG: true})
+    const {actions: {firstLoad}} = useContext(FavoriteContext);
+    const { user } = useAuth0();
 
-    const history = useHistory();
+    useEffect(() => {
+        if(user) {
+            const id = user.sub.split("|")
+            const _id = id[1];
+            firstLoad(_id)
+        }
+    }, [user])
 
     return (<>
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            if (userInput.length){
-                // ugly but necessary
-                history.push(`/results/${userInput}/${filters.Steam}/${filters.Humble}/${filters.GMG}/${filters.GOG}`);
-            }
-        }} >
-            <input placeholder="search here"
-            onChange={(e) => setUserInput(e.target.value)} />
-        </form>
-        {Object.keys(filters).map(filter => {
-            return <li key={Math.random() * 1000000} >
-                <input type="checkbox" value={filter} checked={filters[filter]} onChange={(e) => {
-                    const key = e.target.value;
-                    setFilters({
-                        ...filters,
-                        [key]: !filters[key]
-                    })
-                }} />
-                <label>{filter}</label>
-            </li>
-        })}
+        <HomeWrap>
+            <h2>Which game are you looking for?</h2>
+            <SearchBar />
+        </HomeWrap>
     </>)
 }
+
+const HomeWrap = styled.div `
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 300px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+`
 
 export default Homepage
