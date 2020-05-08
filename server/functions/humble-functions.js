@@ -1,4 +1,4 @@
-const { editSearchTerm, fetchData } = require("../helpers");
+const { editSearchTerm, fetchData, editPrice } = require("../helpers");
 
 const getHumble = async (searched) => {
     const array = searched.split(" ")
@@ -27,8 +27,15 @@ const getHumble = async (searched) => {
     const priceInfo = JSON.parse($("#storefront-webpack-json-data").html());
 
     // information is stored in products_json[0] verified through file-save
-    return {current: priceInfo.products_json[0].current_price.amount, 
-            full: priceInfo.products_json[0].full_price.amount, 
+    const currentPrice = priceInfo.products_json[0].current_price.amount;
+    const fullPrice = priceInfo.products_json[0].full_price.amount;
+
+    // edits the prices, turns them to strings to conserve the second digit if it is a 0 (ex: 10.90)
+    const edditedCurrent = editPrice(currentPrice);
+    const edditedFull = editPrice(fullPrice);
+
+    return {current: edditedCurrent, 
+            full: edditedFull, 
             url: `https://www.humblebundle.com/store/${edittedSearchTerm}`};
 }
 

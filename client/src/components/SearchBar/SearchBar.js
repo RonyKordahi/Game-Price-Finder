@@ -47,13 +47,13 @@ function SearchBar() {
                     <label>{filter}</label>
                 </li>
             })}
-        </Filterwrap>
+        </Filterwrap>         
     </>)
 }
 
 const StyledCheckBox = styled.input `
     margin-top: 10px;
-    margin-left: 25px;
+    margin-left: 15px;
 `
 
 const StyledSearch = styled.input `

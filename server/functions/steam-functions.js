@@ -1,6 +1,6 @@
 const request = require("request-promise");
 
-const { editSearchTerm } = require("../helpers");
+const { editSearchTerm, editPrice } = require("../helpers");
 
 const secondFetch = async (appId, searched) => {
     let info;
@@ -11,12 +11,25 @@ const secondFetch = async (appId, searched) => {
             .then( (data) => {
                 searched = editSearchTerm(searched);
 
+                // will be used to edit the price if found
+                let edditedCurrent;
+                let edditedFull;
+
                 // this is relevant for the game's URL
                 searched = searched.replace(/-/g, "_");
 
+                if (data[appId].data.price_overview) {
+                    const currentPrice = data[appId].data.price_overview.final / 100;
+                    const fullPrice = data[appId].data.price_overview.initial / 100;
+
+                    // edits the prices, turns them to strings to conserve the second digit if it is a 0 (ex: 10.90)
+                    edditedCurrent = editPrice(currentPrice);
+                    edditedFull = editPrice(fullPrice);
+                }
+
                 data[appId].data.price_overview ? 
-                    info = {current: data[appId].data.price_overview.final / 100,
-                        full: data[appId].data.price_overview.initial / 100, 
+                    info = {current: edditedCurrent,
+                        full: edditedFull, 
                         discount: data[appId].data.price_overview.discount_percent,
                         url: `https://store.steampowered.com/app/${appId}/${searched}/`} : 
                     // Free games on Steam do not have a price_overview object. This sets their price to 0 to avoid errors
@@ -57,20 +70,21 @@ const getSteam = async (searched) => {
     // if it has received too many third party pings (many other websites and apps use this API)    
     do {
         stepOne = await firstFetch(searched);
-
-        // ***********************************
-        // TEST WITH :  ™
-        // ***********************************
     }
     while (!stepOne.length)
     
-    const searchedGame = stepOne.filter(app => {
-        // filtering for the exact game based on it's name and string length
+    // filtering for the exact game based on it's name and length
+    let searchedGame = stepOne.filter(app => {
+        // certain games in the steam catalogue keep the trademark special character in their names, this erases it
+        app.name = app.name.replace("™ ", "")
+        app.name = app.name.replace("™", "")
+        
+        // where the magic happens
         if (app.name.toLowerCase().includes(searched.toLowerCase()) && app.name.length === searched.length) {
             return app;
         }
     })
-    
+
     // if the game is not found, returns null
     if (!searchedGame.length) {
         return {current: null, full: null, discount: null}
@@ -80,7 +94,7 @@ const getSteam = async (searched) => {
 
         // fetches on the second API to receive the game's details
         const stepTwo = await secondFetch(appId, searched);
-
+        
         return stepTwo;
     }
 }

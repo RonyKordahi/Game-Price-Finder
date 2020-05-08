@@ -9,7 +9,7 @@ function FavoriteBar() {
     const { user } = useAuth0();
 
     const { state } = useContext(FavoriteContext);
-    
+
     return (<>
     <FavoriteWrapper>
         <h1>Your Favorites: </h1>
@@ -21,14 +21,14 @@ function FavoriteBar() {
         </h4>}
 
         {/* if the user has no favorites */}
-        {user && !(state.length) && 
+        {user && !(state.favorites.length) && 
         <h4>
             You have no favorites yet!
         </h4>}
 
         {/* if the user has favorites */}
-        {user && state.length && 
-        state.map(favorite => {
+        {user && state.favorites.length && 
+        state.favorites.map(favorite => {
             return <FavoriteList game={favorite} key={Math.random() * 100000000} />
         })}
 
@@ -46,6 +46,7 @@ const FavoriteWrapper = styled.div `
     width: 300px;
     overflow: auto;
     background-color: #19191a;
+    border-right: #BFBFBF solid 1px;
 
     h1 {
         margin: 5px 0px;

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState, useContext } from 'react'
+import { useParams, useLocation } from "react-router-dom"
 import styled from "styled-components"
 
 import StoreInfo from '../StoreInfo/StoreInfo'
@@ -7,7 +7,8 @@ import { useAuth0 } from "../auth0/auth0"
 import FavoriteButton from '../FavoriteButton'
 import SearchBar from '../SearchBar/SearchBar'
 import BackButton from '../BackButton'
-import SpinnerSrc from "../../assets/pacman.gif"
+import PacmanSrc from "../../assets/pacman.gif"
+import FavoriteContext from "../../FavoriteContext"
 
 function SearchResults() {
     const {searchedTerm, steam, humble, gmg, gog} = useParams();
@@ -15,7 +16,10 @@ function SearchResults() {
     const [game, setGame] = useState([]);
     const [favorite, setFavorite] = useState(false);
 
+    const {actions: {setLoadingStatus, setIdleStatus}} = useContext(FavoriteContext);
+
     const { user } = useAuth0();
+    let location = useLocation();
 
     useEffect(() => {
         let id;
@@ -28,6 +32,9 @@ function SearchResults() {
         // resets game to re-render the results loading
         setGame([]);
 
+        // sets the state status to loading
+        setLoadingStatus();
+
         // back end will fetch the data conditionally based on these booleans (to save time)
         fetch(`/search/${searchedTerm}/${steam}/${humble}/${gmg}/${gog}/${_id}`, {
             headers: {
@@ -37,6 +44,9 @@ function SearchResults() {
         })
             .then(res => res.json())
             .then(data => {
+                // sets state status to idle
+                setIdleStatus();
+
                 const {results, isFavorite} = data;
                 setFavorite(isFavorite);
                 setGame(results);
@@ -44,7 +54,7 @@ function SearchResults() {
             .catch(err => {
                 console.log(err);
             })
-    }, [searchedTerm])
+    }, [location])
 
     return (<>
         {game.length ? <div>
@@ -66,7 +76,7 @@ function SearchResults() {
             </Title>
             {/* renders the store information */}
             {game.map(store => {
-                return <Container key={Math.random() * 10000000}>
+                return <Container key={Math.random() * 10000000} className={store.name === "GOG" && "last"} >
                     <StoreInfo store={store} />
                 </Container>
             })}
@@ -78,14 +88,14 @@ function SearchResults() {
                 <TitleDisplay>
                     <span>Loading results for: </span>
                     <span>"{searchedTerm}"</span>
-                    <Spinner src={SpinnerSrc} alt="spinner" />
+                    <StyledGif src={PacmanSrc} alt="loading gif" />
                 </TitleDisplay>
             </Title>
         </>}
     </>)
 }
 
-const Spinner = styled.img `
+const StyledGif = styled.img `
     margin-top: 100px;
     margin-left: 100px;
     height: 300px;
@@ -106,15 +116,16 @@ const Title = styled.h1 `
     display: flex;
     justify-content: center;
     margin: 10px auto;
-    width: 700px;
+    width: 578px;
     position: relative;
 `
 
 const Container = styled.div `
     display: flex;
-    border: red solid 1px;
+    border: red solid 2px;
+    border-bottom: none;
     width: 700px;
-    margin: auto;
+    margin-left: 200px;
 `
 
 export default SearchResults

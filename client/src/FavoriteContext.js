@@ -2,20 +2,46 @@ import React, {useReducer} from 'react'
 
 export const FavoriteContext = React.createContext();
 
-const initialState = [];
+const initialState = {
+    favorites: [],
+    status: "idle",
+};
 
 function reducer(state, action) {
     switch(action.type) {
         case "first-load": {
-            return action.data;
+            return {
+                ...state, 
+                favorites: action.data,
+            }
         }
 
         case "add-favorite": {
-            return action.data;
+            return {
+                ...state, 
+                favorites: action.data,
+            }
         }
 
         case "remove-favorite": {
-            return action.data;
+            return {
+                ...state, 
+                favorites: action.data,
+            }
+        }
+
+        case "loading": {
+            return {
+                ...state,
+                status: "loading",
+            }
+        }
+
+        case "idle": {
+            return {
+                ...state,
+                status: "idle",
+            }
         }
 
         default:
@@ -92,7 +118,19 @@ export const FavoriteProvider = ({children}) => {
                 }))
     }
 
-    return <FavoriteContext.Provider value={{state, actions: { firstLoad, addFavorite, removeFavorite }}}>
+    const setLoadingStatus = () => {
+        dispatch({
+            type: "loading",
+        })
+    }
+
+    const setIdleStatus = () => {
+        dispatch({
+            type: "idle",
+        })
+    }
+
+    return <FavoriteContext.Provider value={{state, actions: { firstLoad, addFavorite, removeFavorite, setLoadingStatus, setIdleStatus }}}>
         {children}
         </FavoriteContext.Provider>
 }

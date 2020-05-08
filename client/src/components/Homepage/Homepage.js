@@ -4,6 +4,7 @@ import SearchBar from '../SearchBar';
 
 import FavoriteContext from "../../FavoriteContext"
 import { useAuth0 } from "../auth0/auth0";
+import LogoSrc from "../../assets/logo.png"
 
 function Homepage() {
 
@@ -20,17 +21,24 @@ function Homepage() {
 
     return (<>
         <HomeWrap>
+            <Logo src={LogoSrc} alt="logo" />
             <h2>Which game are you looking for?</h2>
             <SearchBar />
         </HomeWrap>
     </>)
 }
 
+const Logo = styled.img `
+    height: 350px;
+    width: 550px;
+    margin: auto;
+`
+
 const HomeWrap = styled.div `
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-top: 300px;
+    margin-top: 30px;
 
     h2 {
         margin-bottom: 20px;

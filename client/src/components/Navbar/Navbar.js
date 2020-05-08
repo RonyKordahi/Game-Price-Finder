@@ -32,10 +32,15 @@ function Navbar() {
 
 const MoveFromTop = styled.div `
     margin-top: 10px;
+
+    span {
+        position: absolute;
+        left: 50%;
+    }
 `
 
 const HomeLink = styled(Link) `
-    margin-left: 5px;
+    margin-left: 73px;
 `
 const LoginAndOut = styled.span `
     margin-right: 5px;

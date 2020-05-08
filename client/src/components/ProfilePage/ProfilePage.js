@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
@@ -18,10 +18,10 @@ const ProfilePage = () => {
             <h2>Your favorite searches :</h2>
 
             {/* conditional rendering of the user's favorites */}
-            {state.length ? 
+            {state.favorites.length ? 
             <>
             <GameWrap>
-                {state.map(result => {
+                {state.favorites.map(result => {
                     return <FavoriteGame to={`/results/${result.userInput}/${result.steam}/${result.humble}/${result.gmg}/${result.gog}`}
                         key={Math.random() * 10000000}
                         className="hover">

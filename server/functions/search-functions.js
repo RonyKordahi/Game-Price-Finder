@@ -45,7 +45,7 @@ const getGame = async req => {
         favorites = await checkFavorites(_id);
         if (favorites && favorites.length) {
             await favorites.forEach(favorite => {
-                if (favorite.userInput === searched && favorite.steam === steam && favorite.humble === humble
+                if (favorite.userInput.toLowerCase() === searched.toLowerCase() && favorite.steam === steam && favorite.humble === humble
                     && favorite.gmg === gmg && favorite.gog === gog) {
                         // sets return value to favorite being found
                         returnValue = {results: results, isFavorite: true}

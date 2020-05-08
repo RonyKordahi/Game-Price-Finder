@@ -91,7 +91,7 @@ const addFavorite = async req => {
     if (r) {
         let found = false;
         r.favorites.forEach(favorite => {
-            if (favorite.userInput === searched.userInput && favorite.steam === searched.steam && favorite.humble === searched.humble
+            if (favorite.userInput.toLowerCase() === searched.userInput.toLowerCase() && favorite.steam === searched.steam && favorite.humble === searched.humble
                 && favorite.gmg === searched.gmg && favorite.gog === searched.gog) {
                     found = true;
                 }

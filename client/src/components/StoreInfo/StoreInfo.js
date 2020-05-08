@@ -76,9 +76,9 @@ function StoreInfo({store}) {
             <a href={store.logoUrl} target="_blank" rel="noopener noreferrer">
                 <LogoPlacement className="hover"><Logo src={store.logo} alt="logo" /></LogoPlacement>
             </a>
-            <GameInfo>
+            <InfoWrapper>
                 <span>- GAME NOT AVAILABLE -</span>
-            </GameInfo>
+            </InfoWrapper>
         </Store>}
     </>)
 }
@@ -91,8 +91,8 @@ const Discount = styled.div `
     right: 0;
     color: black;
     background: #f76a3b;
-    background: ${props => props.discount > 25 && "yellow"};
-    background: ${props => props.discount > 50 && "limegreen"};
+    background: ${props => props.discount >= 25 && "yellow"};
+    background: ${props => props.discount >= 50 && "limegreen"};
     border-radius: 100px;
     height: 37px;
     width: 37px;

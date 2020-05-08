@@ -50,7 +50,8 @@ const ButtonWrapper = styled.div `
     width: 40px;
     border-radius: 50px;
 
-    background: ${props => props.favorite && "rgb(255,223,0, 0.5);"};
+    background: ${props => props.favorite && "rgb(255,223,0);"};
+    color: ${props => props.favorite && "#19191a"};
 `
 
 export default FavoriteButton

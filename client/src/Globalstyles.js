@@ -64,6 +64,10 @@ export default createGlobalStyle`
         font-family: 'Varela Round', sans-serif;
     }
 
+    .last {
+        border-bottom: red solid 2px;
+    }
+
     .full-price {
         text-decoration: line-through;
     }

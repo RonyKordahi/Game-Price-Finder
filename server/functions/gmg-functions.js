@@ -19,9 +19,9 @@ const getGMG = async (searched) => {
     parsedInfo = parsedInfo.split(" ");
     
     // grabbing the full and discounted prices and converts them into a number
-    const full = parseFloat(parsedInfo[1]);
-    const current = parseFloat(parsedInfo[4]);
-
+    const full = parsedInfo[1];
+    const current = parsedInfo[4];
+    
     return {current: current, full: full, url: `https://www.greenmangaming.com/games/${edittedSearchTerm}-pc`};
 }
 

@@ -12,8 +12,8 @@ const getGOG = async (searched) => {
     let current = JSON.stringify($(".product-actions-price__final-amount").html());
 
     // GOG returns the value between " which needs to be removed before converted to a number
-    current = parseFloat(current.replace(/"/g, ""));
-    full = parseFloat(full.replace(/"/g, ""));
+    current = current.replace(/"/g, "");
+    full = full.replace(/"/g, "");
 
     // GOG doesn't return an empty result from the fetchData function. It reequires it's own verification
     if (isNaN(current) || isNaN(full)) {
