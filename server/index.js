@@ -12,7 +12,7 @@ const { addFavorite,
         removeFavorite, 
         getFavorites, } = require("./functions/favorites-functions");
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 express()
     .use(function(req, res, next) {

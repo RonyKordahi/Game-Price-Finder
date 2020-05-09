@@ -75,8 +75,8 @@ function SearchResults() {
                 </div>}
             </Title>
             {/* renders the store information */}
-            {game.map(store => {
-                return <Container key={Math.random() * 10000000} className={store.name === "GOG" && "last"} >
+            {game.map((store, index) => {
+                return <Container key={Math.random() * 10000000} className={index === (game.length - 1) && "last"} >
                     <StoreInfo store={store} />
                 </Container>
             })}
