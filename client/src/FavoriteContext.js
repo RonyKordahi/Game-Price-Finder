@@ -1,5 +1,7 @@
 import React, {useReducer} from 'react'
 
+import { url } from "./constants"
+
 export const FavoriteContext = React.createContext();
 
 const initialState = {
@@ -53,7 +55,7 @@ export const FavoriteProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const firstLoad = (_id) => {
-        fetch(`/get/${_id}`,{
+        fetch(`${url}/get/${_id}`,{
             headers: {
                 "Content-Type": "application/json",
                 "Accept" : "application/json"
@@ -70,7 +72,7 @@ export const FavoriteProvider = ({children}) => {
 
     const addFavorite = (body) => {
 
-        fetch("/add/favorite", {
+        fetch(`${url}/add/favorite`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -78,7 +80,7 @@ export const FavoriteProvider = ({children}) => {
             },
             body: JSON.stringify(body),
         })
-        .then(x =>  fetch(`/get/${body._id}`,{
+        .then(x =>  fetch(`${url}/get/${body._id}`,{
             headers: {
                 "Content-Type": "application/json",
                 "Accept" : "application/json"
@@ -95,7 +97,7 @@ export const FavoriteProvider = ({children}) => {
 
     const removeFavorite = (body) => {
 
-        fetch("/remove/favorite", {
+        fetch(`${url}/remove/favorite`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -103,7 +105,7 @@ export const FavoriteProvider = ({children}) => {
             },
             body: JSON.stringify(body),
         })
-        .then(x => fetch(`/get/${body._id}`,{
+        .then(x => fetch(`${url}/get/${body._id}`,{
             headers: {
                 "Content-Type": "application/json",
                 "Accept" : "application/json"

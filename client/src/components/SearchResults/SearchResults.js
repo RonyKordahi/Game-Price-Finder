@@ -9,6 +9,7 @@ import SearchBar from '../SearchBar/SearchBar'
 import BackButton from '../BackButton'
 import PacmanSrc from "../../assets/pacman.gif"
 import FavoriteContext from "../../FavoriteContext"
+import { url } from "../../constants"
 
 function SearchResults() {
     const {searchedTerm, steam, humble, gmg, gog} = useParams();
@@ -36,7 +37,7 @@ function SearchResults() {
         setLoadingStatus();
 
         // back end will fetch the data conditionally based on these booleans (to save time)
-        fetch(`/search/${searchedTerm}/${steam}/${humble}/${gmg}/${gog}/${_id}`, {
+        fetch(`${url}/search/${searchedTerm}/${steam}/${humble}/${gmg}/${gog}/${_id}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Accept" : "application/json"

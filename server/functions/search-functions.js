@@ -7,7 +7,7 @@ const { checkFavorites } = require("./favorites-functions");
 
 const getGame = async req => {
     const { searched, steam, humble, gmg, gog, _id} = req.params;
-
+    console.log("searching");
     // will be sent to the front end
     let returnValue;
     
