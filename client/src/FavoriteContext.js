@@ -55,14 +55,10 @@ export const FavoriteProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const firstLoad = (_id) => {
-        fetch(`${url}/get/${_id}`,{
-            headers: {
-                "Content-Type": "application/json",
-                "Accept" : "application/json"
-            },
-        })
+        fetch(`${url}/get/${_id}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 dispatch({
                     type: "first-load",
                     data: data,

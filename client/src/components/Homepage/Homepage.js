@@ -4,7 +4,6 @@ import SearchBar from '../SearchBar';
 
 import FavoriteContext from "../../FavoriteContext"
 import { useAuth0 } from "../auth0/auth0";
-import LogoSrc from "../../assets/logo.png"
 
 function Homepage() {
 
@@ -21,7 +20,7 @@ function Homepage() {
 
     return (<>
         <HomeWrap>
-            <Logo src={LogoSrc} alt="logo" />
+            <Logo src="/assets/logo.png" alt="logo" />
             <h2>Which game are you looking for?</h2>
             <SearchBar />
         </HomeWrap>

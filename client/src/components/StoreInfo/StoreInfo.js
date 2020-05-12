@@ -1,33 +1,27 @@
 import React from 'react'
 import styled from "styled-components"
 
-import SteamSrc from "../../assets/Steam.png"
-import HumbleSrc from "../../assets/Humble.svg"
-import GMGSrc from "../../assets/GMG.png"
-import GOGSrc from "../../assets/GOG.png"
-
-
 function StoreInfo({store}) {
 
     // sets the logo and store URL based on the store's name
     switch (store.name) {
         case "Steam":
-            store.logo = SteamSrc;
+            store.logo = "/assets/Steam.png";
             store.logoUrl = "https://store.steampowered.com/";
             break;
 
         case "Humble":
-            store.logo = HumbleSrc;
+            store.logo = "/assets/Humble.svg";
             store.logoUrl = "https://www.humblebundle.com/store";
             break;
 
         case "GMG":
-            store.logo = GMGSrc;
+            store.logo = "/assets/GMG.png";
             store.logoUrl = "https://www.greenmangaming.com/";
             break;
 
         case "GOG":
-            store.logo = GOGSrc;
+            store.logo = "/assets/GOG.png";
             store.logoUrl = "https://www.gog.com/";
             break;
 

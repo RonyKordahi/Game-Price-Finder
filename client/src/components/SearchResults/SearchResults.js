@@ -7,7 +7,6 @@ import { useAuth0 } from "../auth0/auth0"
 import FavoriteButton from '../FavoriteButton'
 import SearchBar from '../SearchBar/SearchBar'
 import BackButton from '../BackButton'
-import PacmanSrc from "../../assets/pacman.gif"
 import FavoriteContext from "../../FavoriteContext"
 import { url } from "../../constants"
 
@@ -89,7 +88,7 @@ function SearchResults() {
                 <TitleDisplay>
                     <span>Loading results for: </span>
                     <span>"{searchedTerm}"</span>
-                    <StyledGif src={PacmanSrc} alt="loading gif" />
+                    <StyledGif src="/assets/pacman.gif" alt="loading gif" />
                 </TitleDisplay>
             </Title>
         </>}
