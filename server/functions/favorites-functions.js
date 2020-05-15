@@ -23,7 +23,6 @@ const checkFavorites = async _id => {
 // returns the user's favorites to the front end
 // ********************************************
 const getFavorites = async req => {
-    console.log("GETTING FAVORITES");
     const {_id} = req.params;
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
@@ -34,7 +33,6 @@ const getFavorites = async req => {
     // the front end handles the conditional rendering of the favorites array
     if (r) {
         client.close();
-        console.log("FAVORITES FOUND");
         return r.favorites
     }
 }

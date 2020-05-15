@@ -42,7 +42,7 @@ const secondFetch = async (appId, searched) => {
     return info;
 }
 
-const firstFetch = async (searched) => {
+const firstFetch = async () => {
     try {
         // will be returned by the function
         let returnApps;
@@ -69,7 +69,7 @@ const getSteam = async (searched) => {
     // calls back the function because the API will occasionally return an empty object 
     // if it has received too many third party pings (many other websites and apps use this API)    
     do {
-        stepOne = await firstFetch(searched);
+        stepOne = await firstFetch();
     }
     while (!stepOne.length)
     
@@ -101,4 +101,5 @@ const getSteam = async (searched) => {
 
 module.exports = {
     getSteam,
+    firstFetch,
 }
