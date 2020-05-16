@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import styled from "styled-components"
 
@@ -9,8 +9,11 @@ import SearchResults from '../SearchResults/SearchResults'
 import ProfilePage from "../ProfilePage"
 import ErrorPage from '../ErrorPage/ErrorPage'
 import FavoriteBar from '../FavoriteBar/FavoriteBar'
+import BetaWarning from '../BetaWarning/BetaWarning'
 
 function App() {
+  const [warning, setWarning] = useState(false);
+
   return (<>
     <Router>
       
@@ -22,7 +25,8 @@ function App() {
         <MoveLeft>
 
         <Route exact path="/">
-          <Homepage />
+          {/* conditional rendering of components? */}
+          {!warning ? <BetaWarning setWarning={setWarning} /> : <Homepage />}
         </Route>
 
         <Route path="/results/:searchedTerm/:steam/:humble/:gmg/:gog">
