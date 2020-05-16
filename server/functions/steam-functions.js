@@ -2,7 +2,7 @@ const request = require("request-promise");
 
 const { editSearchTerm, editPrice } = require("../helpers");
 
-const secondFetch = async (appId, searched) => {
+const getGameInfo = async (appId, searched) => {
     let info;
 
     try {
@@ -37,12 +37,12 @@ const secondFetch = async (appId, searched) => {
             })
     }
     catch {
-        console.log("Error in secondFetch");
+        console.log("Error in getGameInfo");
     }
     return info;
 }
 
-const firstFetch = async () => {
+const getSteamCatalog = async () => {
     try {
         // will be returned by the function
         let returnApps;
@@ -58,23 +58,23 @@ const firstFetch = async () => {
             return returnApps;
         }
         catch {
-            console.log("Error in firstFetch");
+            console.log("Error in getSteamCatalog");
         }
 }
 
 const getSteam = async (searched) => {
     // fetches on the first API to receive the entire list of games then filters through to find the specific one requested
-    let stepOne;
+    let catalog;
     
     // calls back the function because the API will occasionally return an empty object 
     // if it has received too many third party pings (many other websites and apps use this API)    
     do {
-        stepOne = await firstFetch();
+        catalog = await getSteamCatalog();
     }
-    while (!stepOne.length)
+    while (!catalog.length)
     
     // filtering for the exact game based on it's name and length
-    let searchedGame = stepOne.filter(app => {
+    let searchedGame = catalog.filter(app => {
         // certain games in the steam catalogue keep the trademark special character in their names, this erases it
         app.name = app.name.replace("™ ", "")
         app.name = app.name.replace("™", "")
@@ -93,13 +93,13 @@ const getSteam = async (searched) => {
         const appId = searchedGame[0].appid.toString();
 
         // fetches on the second API to receive the game's details
-        const stepTwo = await secondFetch(appId, searched);
+        const gameInfo = await getGameInfo(appId, searched);
         
-        return stepTwo;
+        return gameInfo;
     }
 }
 
 module.exports = {
     getSteam,
-    firstFetch,
+    getSteamCatalog,
 }

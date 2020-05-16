@@ -7,19 +7,23 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const schedule = require("node-schedule");
 
-schedule.scheduleJob({hour: 22, minute: 30, dayOfWeek: 3}, function() {
-    console.log("THIS IS A NEW SCHEDULED TEST");
-})
-
+// Function calls
+// *********************************************************
 const { getGame } = require("./functions/search-functions");
 
 const { addFavorite, 
     removeFavorite, 
     getFavorites, } = require("./functions/favorites-functions");
-
-const { firstFetch } = require("./functions/steam-functions");
+    
+const { getSteamCatalog } = require("./functions/steam-functions");
+// *********************************************************
 
 const PORT = process.env.PORT || 4000;
+
+// every monday at 12
+schedule.scheduleJob({hour: 12, minute: 0, dayOfWeek: 6}, function() {
+    console.log("THIS IS A NEW SCHEDULED TEST");
+})
 
 express()
     .use(function(req, res, next) {
