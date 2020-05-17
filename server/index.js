@@ -5,25 +5,17 @@ let results;
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const schedule = require("node-schedule");
 
-// Function calls
+// Function imports
 // *********************************************************
 const { getGame } = require("./functions/search-functions");
 
 const { addFavorite, 
     removeFavorite, 
     getFavorites, } = require("./functions/favorites-functions");
-    
-const { getSteamCatalog } = require("./functions/steam-functions");
 // *********************************************************
 
 const PORT = process.env.PORT || 4000;
-
-// every monday at 12
-schedule.scheduleJob({hour: 12, minute: 0, dayOfWeek: 6}, function() {
-    console.log("THIS IS A NEW SCHEDULED TEST");
-})
 
 express()
     .use(function(req, res, next) {
