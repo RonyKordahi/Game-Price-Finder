@@ -16,7 +16,7 @@ function SearchResults() {
     const [game, setGame] = useState([]);
     const [favorite, setFavorite] = useState(false);
 
-    const {actions: {setLoadingStatus, setIdleStatus}} = useContext(FavoriteContext);
+    const {state, actions: {setLoadingStatus, setIdleStatus}} = useContext(FavoriteContext);
 
     const { user } = useAuth0();
     let location = useLocation();
@@ -57,7 +57,7 @@ function SearchResults() {
     }, [location])
 
     return (<>
-        {game.length ? <div>
+        {state.status === "idle" ? <>
             {/* search bar only displayed after loading */}
             <SearchBarPosition>
                 <SearchBar />
@@ -81,7 +81,7 @@ function SearchResults() {
                 </Container>
             })}
             <BackButton />
-        </div> : 
+        </> : 
         <>
         {/* displays loading screen */}
             <Title>

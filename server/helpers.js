@@ -1,6 +1,51 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+// ****************************************************************************************
+// Filters through all the games in order to remove as many unnecessary results as possible
+// ****************************************************************************************
+const superFilter = (catalog, searched) => {
+    
+    const filteredCatalog = catalog.filter(app => {
+        // certain games in the steam catalogue keep the trademark special character in their names, this erases it
+        app.name = app.name.replace("™ ", "");
+        app.name = app.name.replace("™", "");
+        app.name = app.name.replace("®", "");
+        app.name = app.name.replace("® ", "");
+        
+        if (app.name.toLowerCase().includes(searched.toLowerCase())
+            // includes specific games
+            && (!(app.name.toLowerCase().includes("pack")) || app.name.toLowerCase().includes("jackbox"))
+            && (!(app.name.toLowerCase().includes("trailer")) || app.name.toLowerCase().includes("trailers"))
+            && (!(app.name.toLowerCase().includes("tool")) || app.name.toLowerCase().includes("up"))
+            && (!(app.name.toLowerCase().includes("contest")) || app.name.toLowerCase().includes("mahjong"))
+            && (!(app.name.toLowerCase().includes("arkham asylum")) && (!(app.name.toLowerCase().includes("arkham city")))
+            || app.name.toLowerCase().includes("goty"))
+            // includes several games
+            && (!(app.name.toLowerCase().includes("mod")) || app.name.toLowerCase().includes("garry") 
+            || app.name.toLowerCase().includes("mode")) 
+            // specific to a few games only
+            && !(app.name.toLowerCase().includes("online supply drop")) && !(app.name.toLowerCase().includes("minecraft"))
+            && !(app.name.toLowerCase().includes("community safe")) && !(app.name.toLowerCase().includes("batman arkham city:"))
+            && !(app.name.toLowerCase().includes("mario")) && !(app.name.toLowerCase().includes("player profiles"))
+            && !(app.name.toLowerCase().includes("cold, cold heart")) && !(app.name.toLowerCase().includes("steam powered"))
+            // everything else
+            && !(app.name.toLowerCase().includes("dlc")) && !(app.name.toLowerCase().includes("season pass"))
+            && !(app.name.toLowerCase().includes("beta")) && !(app.name.toLowerCase().includes("demo"))
+            && !(app.name.toLowerCase().includes("server")) && !(app.name.toLowerCase().includes("soundtrack"))
+            && !(app.name.toLowerCase().includes("bonus")) && !(app.name.toLowerCase().includes("sdk"))
+            && !(app.name.toLowerCase().includes("expansion")) && !(app.name.toLowerCase().includes("bundle"))
+            && !(app.name.toLowerCase().includes("update")) && !(app.name.toLowerCase().includes("content"))
+            && !(app.name.toLowerCase().includes("development")) && !(app.name.toLowerCase().includes("configuration"))
+            && !(app.name.toLowerCase().includes("upload")) && !(app.name.toLowerCase().includes("setup"))
+            ) {
+            return app;
+        }
+    })
+
+    return filteredCatalog
+}
+
 // **************************************************************************************
 // edits the pricing, transforms it into string to conserve the 0 after the decimal point
 // **************************************************************************************
@@ -21,6 +66,8 @@ const editSearchTerm = searched => {
     searched = searched.replace(/-/g, "");
     searched = searched.replace(/'/g, "");
     searched = searched.replace(/\./g, "");
+    searched = searched.replace(/!/g, "");
+    searched = searched.replace(/\?/g, "");
     searched = searched.replace(/\s+/g, "-").toLowerCase();
     return searched;
 }
@@ -43,4 +90,5 @@ module.exports = {
     editSearchTerm,
     fetchData,
     editPrice,
+    superFilter,
 }

@@ -3,9 +3,14 @@ const { editSearchTerm, fetchData } = require("../helpers");
 const getGMG = async (searched) => {
     const edittedSearchTerm = editSearchTerm(searched);
 
-    const $ = await fetchData(`https://www.greenmangaming.com/games/${edittedSearchTerm}-pc`);
+    let $ = await fetchData(`https://www.greenmangaming.com/games/${edittedSearchTerm}-pc`);
 
-    // if the game is not found, returns null
+    // if the game is not found, checks an alternate url
+    if (!$) {
+        $ = await fetchData(`https://www.greenmangaming.com/games/${edittedSearchTerm}`);
+    }
+
+    // if the game is not found a second time, returns null
     if (!$) {
         return {current: null, full: null}
     }
@@ -19,10 +24,14 @@ const getGMG = async (searched) => {
     parsedInfo = parsedInfo.split(" ");
     
     // grabbing the full and discounted prices and converts them into a number
-    const full = parsedInfo[1];
-    const current = parsedInfo[4];
-    
-    return {current: current, full: full, url: `https://www.greenmangaming.com/games/${edittedSearchTerm}-pc`};
+    if (parsedInfo[1].length || parsedInfo[4].length) {
+        const current = parsedInfo[4];
+        const full = parsedInfo[1];
+        return {current: current, full: full, url: `https://www.greenmangaming.com/games/${edittedSearchTerm}-pc`};
+    }
+    else {
+        return {current: null, full: null}
+    }
 }
 
 module.exports = {
