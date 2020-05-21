@@ -6,10 +6,9 @@ function BetaWarning({setWarning}) {
         <WarningWrap>
             <h1>A few things to know before you start</h1>
             <h2>1. This application is a WIP demo, progress will be a little slow</h2>
-            <h2>2. Currently the application only works with <span>exact name matches</span> for game searches</h2>
-            <h2>3. The GOG parsing occasionally returns the wrong pricing information (reason unknown)</h2>
-            <h2>4. The server is hosted on Heroku, it may take up to 30 seconds for your favorites to load</h2>
-            <h2>5. Due to Heroku region limitations, the app only returns US market information</h2>
+            <h2>2. The GOG parsing occasionally returns the wrong pricing information (reason unknown)</h2>
+            <h2>3. The server is hosted on Heroku, it may take up to 30 seconds for your favorites to load</h2>
+            <h2>4. Due to Heroku region limitations, the app only returns US market information</h2>
             <ContinueButton 
             className="hover"
             onClick={() => setWarning(true)}>

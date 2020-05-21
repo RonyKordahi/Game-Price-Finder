@@ -21,17 +21,19 @@ const superFilter = (catalog, searched) => {
             && (!(app.name.toLowerCase().includes("contest")) || app.name.toLowerCase().includes("mahjong"))
             && (!(app.name.toLowerCase().includes("arkham asylum")) && (!(app.name.toLowerCase().includes("arkham city")))
             || app.name.toLowerCase().includes("goty"))
-            && (!(app.name.toLowerCase().includes("plaid")) && (!(app.name.toLowerCase().includes("shirt")))
-            || app.name.toLowerCase().includes("red"))
+            && (!(app.name.toLowerCase().includes("shirt")) || app.name.toLowerCase().includes("redshirt"))
             // includes several games
             && (!(app.name.toLowerCase().includes("mod")) || app.name.toLowerCase().includes("garry") 
             || app.name.toLowerCase().includes("mode")) 
-            // specific to a few games only
+            // specific to a few games/results only
             && !(app.name.toLowerCase().includes("online supply drop")) && !(app.name.toLowerCase().includes("minecraft"))
             && !(app.name.toLowerCase().includes("community safe")) && !(app.name.toLowerCase().includes("batman arkham city:"))
             && !(app.name.toLowerCase().includes("mario")) && !(app.name.toLowerCase().includes("player profiles"))
             && !(app.name.toLowerCase().includes("cold, cold heart")) && !(app.name.toLowerCase().includes("steam powered"))
-            && !(app.name.toLowerCase().includes("armor safe reward"))
+            && !(app.name.toLowerCase().includes("armor safe reward")) && !(app.name.toLowerCase().includes("dota 2 -"))
+            && !(app.name.toLowerCase().includes("steam dev days")) && !(app.name.toLowerCase().includes("dota 2 test"))
+            && !(app.name.toLowerCase().includes("dota 2 teaser")) && !(app.name.toLowerCase().includes("rescue bear operation -"))
+            && !(app.name.toLowerCase().includes("cancerpants"))
             // everything else
             && !(app.name.toLowerCase().includes("dlc")) && !(app.name.toLowerCase().includes("season pass"))
             && !(app.name.toLowerCase().includes("beta")) && !(app.name.toLowerCase().includes("demo"))
@@ -41,6 +43,7 @@ const superFilter = (catalog, searched) => {
             && !(app.name.toLowerCase().includes("update")) && !(app.name.toLowerCase().includes("content"))
             && !(app.name.toLowerCase().includes("development")) && !(app.name.toLowerCase().includes("configuration"))
             && !(app.name.toLowerCase().includes("upload")) && !(app.name.toLowerCase().includes("setup"))
+            && !(app.name.toLowerCase().includes("template"))
             ) {
                 return app;
         }

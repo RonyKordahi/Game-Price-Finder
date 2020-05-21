@@ -23,6 +23,12 @@ function SearchResults() {
     const { user } = useAuth0();
     let location = useLocation();
 
+    let slicedSearched;
+
+    if (searchedTerm.length > 20) {
+        slicedSearched = searchedTerm.slice(0, 20);
+    }
+
     useEffect(() => {
         let id;
         let _id;
@@ -87,7 +93,7 @@ function SearchResults() {
             </>}
             {links && 
             <LinkWrapper> 
-                {links.map((appName, index) => {
+                {links.map(appName => {
                     return <>
                         <div key={Math.random() * 10000000}>
                             <Link className="hover" to={state.status === "idle" && `/results/${appName}/${steam}/${humble}/${gmg}/${gog}`}> 
@@ -104,7 +110,7 @@ function SearchResults() {
             <Title>
                 <TitleDisplay>
                     <span>Loading results for: </span>
-                    <span>"{searchedTerm}"</span>
+                    <span>"{slicedSearched || searchedTerm} {slicedSearched && "..."}"</span>
                     <StyledGif src="/assets/pacman.gif" alt="loading gif" />
                 </TitleDisplay>
             </Title>
@@ -114,7 +120,7 @@ function SearchResults() {
 
 const LinkWrapper = styled.div `
     text-align: center;
-    overflow-y: scroll;
+    
     div {
         margin: 17px;
     }

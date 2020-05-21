@@ -31,7 +31,7 @@ const getGameInfo = async (appId, searched) => {
                         discount: data[appId].data.price_overview.discount_percent,
                         url: `https://store.steampowered.com/app/${appId}/${searched}/`} 
                 }
-                else if (data[appId].data.price_in_cents_with_discount){
+                else if (data[appId].data.is_free){
                     // Free games on Steam do not have a price_overview object. This sets their price to 0 to avoid errors
                     info = {current: 0, full: 0, discount: 100, url: `https://store.steampowered.com/app/${appId}/${searched}/`}
                 }

@@ -1,18 +1,23 @@
 import React from 'react'
-import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { useHistory } from 'react-router-dom'
 
 function BackButton() {
+    const history = useHistory();
+
     return (
-        <Back>
-            <Link to="/" className="hover">↩ Go Back</Link>
+        <Back className="hover"
+        onClick={() => {
+            history.goBack();
+        }}>
+            ↩ Go Back
         </Back>
     )
 }
 
 const Back = styled.h1 `
     margin: auto;
-    width: 200px;
+    width: 180px;
     margin-top: 17px;
 `
 
