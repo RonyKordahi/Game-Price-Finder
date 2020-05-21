@@ -10,7 +10,7 @@ function Navbar() {
 
     return (
         <NavWrapper>
-            <MoveFromTop><HomeLink to="/" className="hover" >Price Check</HomeLink></MoveFromTop>
+            <HomeLink to="/" className="hover" ><HomeButton src="/assets/logo.png" alt="logo" /></HomeLink>
             {user && (<>
                 <MoveFromTop><span>Signed in as {user.name}</span></MoveFromTop>
             </>)}
@@ -29,6 +29,10 @@ function Navbar() {
         </NavWrapper>
     )
 }
+
+const HomeButton = styled.img `
+    height: 42.5px;
+`
 
 const MoveFromTop = styled.div `
     margin-top: 10px;

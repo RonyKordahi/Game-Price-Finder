@@ -29,7 +29,7 @@ function Homepage() {
 
 const Logo = styled.img `
     height: 350px;
-    width: 550px;
+    /* width: 550px; */
     margin: auto;
 `
 
