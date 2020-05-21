@@ -10,4 +10,4 @@ be displayed for the user's needs. In the case of the Steam store, there are 2 u
 search result because the steam store uses it's own unique APP ID codes to categorize games in their store. 
 
 ---
-# Logo and graphics curtosey of Sheryl Brumbalow.
+# Logo and graphics courtesy of Sheryl Brumbalow.
