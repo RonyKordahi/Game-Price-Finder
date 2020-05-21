@@ -42,7 +42,7 @@ const FavoriteWrapper = styled.div `
     flex-direction: column;
     position: absolute;
     left: 0;
-    height: 100%;
+    height: 100vh;
     width: 300px;
     overflow: auto;
     background-color: #19191a;

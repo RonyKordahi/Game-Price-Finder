@@ -62,6 +62,7 @@ export default createGlobalStyle`
         background: #212324;
         color: #BFBFBF;
         font-family: 'Varela Round', sans-serif;
+        overflow-y: hidden;
     }
 
     .last {

@@ -26,7 +26,7 @@ const getGame = async req => {
     // filters through the list of games to remove "pollution" as much as possible
     let searchedTerm = superFilter(catalog, searched);
 
-    if (searchedTerm.length === 1 && searchedTerm[0] === searched) {
+    if (searchedTerm.length === 1 && searchedTerm[0].toLowerCase() === searched.toLowerCase()) {
         if (steam === "true") {
             const steamResults = await getSteam(searched, catalog);
             steamResults.name = "Steam";

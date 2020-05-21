@@ -74,7 +74,7 @@ function SearchResults() {
             {/* displays results */}
             <Title>
                 <TitleDisplay>
-                    <span>Displaying results for: </span>
+                    <span>{`Displaying ${links ? links.length : ""} results for:`}</span>
                     <span>"{searchedTerm}"</span>
                 </TitleDisplay>
 
@@ -95,11 +95,11 @@ function SearchResults() {
             <LinkWrapper> 
                 {links.map(appName => {
                     return <>
-                        <div key={Math.random() * 10000000}>
+                        <h2 key={Math.random() * 10000000}>
                             <Link className="hover" to={state.status === "idle" && `/results/${appName}/${steam}/${humble}/${gmg}/${gog}`}> 
                                 {appName}
                             </Link>
-                        </div>
+                        </h2>
                     </>
                 })}
             </LinkWrapper>}
@@ -110,7 +110,7 @@ function SearchResults() {
             <Title>
                 <TitleDisplay>
                     <span>Loading results for: </span>
-                    <span>"{slicedSearched || searchedTerm} {slicedSearched && "..."}"</span>
+                    <span>"{slicedSearched || searchedTerm}{slicedSearched && "..."}"</span>
                     <StyledGif src="/assets/pacman.gif" alt="loading gif" />
                 </TitleDisplay>
             </Title>
@@ -120,8 +120,10 @@ function SearchResults() {
 
 const LinkWrapper = styled.div `
     text-align: center;
+    height: 450px;
+    overflow-y: auto;
     
-    div {
+    h2 {
         margin: 17px;
     }
 `

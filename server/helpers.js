@@ -33,7 +33,7 @@ const superFilter = (catalog, searched) => {
             && !(app.name.toLowerCase().includes("armor safe reward")) && !(app.name.toLowerCase().includes("dota 2 -"))
             && !(app.name.toLowerCase().includes("steam dev days")) && !(app.name.toLowerCase().includes("dota 2 test"))
             && !(app.name.toLowerCase().includes("dota 2 teaser")) && !(app.name.toLowerCase().includes("rescue bear operation -"))
-            && !(app.name.toLowerCase().includes("cancerpants"))
+            && !(app.name.toLowerCase().includes("cancerpants")) && !(app.name.toLowerCase().includes("web series"))
             // everything else
             && !(app.name.toLowerCase().includes("dlc")) && !(app.name.toLowerCase().includes("season pass"))
             && !(app.name.toLowerCase().includes("beta")) && !(app.name.toLowerCase().includes("demo"))
