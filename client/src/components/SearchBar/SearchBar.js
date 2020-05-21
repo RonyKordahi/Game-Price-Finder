@@ -28,7 +28,7 @@ function SearchBar() {
                 }
             }
         }} >
-            <StyledSearch placeholder="What game are you looking for?"
+            <StyledSearch placeholder="Enter game name here"
             ref={inputRef}
             onChange={(e) => setUserInput(e.target.value)} />
         </form>

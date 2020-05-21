@@ -6,7 +6,7 @@ const cheerio = require("cheerio");
 // ****************************************************************************************
 const superFilter = (catalog, searched) => {
     
-    const filteredCatalog = catalog.filter(app => {
+    const catalogFilter = catalog.filter(app => {
         // certain games in the steam catalogue keep the trademark special character in their names, this erases it
         app.name = app.name.replace("™ ", "");
         app.name = app.name.replace("™", "");
@@ -21,6 +21,8 @@ const superFilter = (catalog, searched) => {
             && (!(app.name.toLowerCase().includes("contest")) || app.name.toLowerCase().includes("mahjong"))
             && (!(app.name.toLowerCase().includes("arkham asylum")) && (!(app.name.toLowerCase().includes("arkham city")))
             || app.name.toLowerCase().includes("goty"))
+            && (!(app.name.toLowerCase().includes("plaid")) && (!(app.name.toLowerCase().includes("shirt")))
+            || app.name.toLowerCase().includes("red"))
             // includes several games
             && (!(app.name.toLowerCase().includes("mod")) || app.name.toLowerCase().includes("garry") 
             || app.name.toLowerCase().includes("mode")) 
@@ -29,6 +31,7 @@ const superFilter = (catalog, searched) => {
             && !(app.name.toLowerCase().includes("community safe")) && !(app.name.toLowerCase().includes("batman arkham city:"))
             && !(app.name.toLowerCase().includes("mario")) && !(app.name.toLowerCase().includes("player profiles"))
             && !(app.name.toLowerCase().includes("cold, cold heart")) && !(app.name.toLowerCase().includes("steam powered"))
+            && !(app.name.toLowerCase().includes("armor safe reward"))
             // everything else
             && !(app.name.toLowerCase().includes("dlc")) && !(app.name.toLowerCase().includes("season pass"))
             && !(app.name.toLowerCase().includes("beta")) && !(app.name.toLowerCase().includes("demo"))
@@ -39,11 +42,21 @@ const superFilter = (catalog, searched) => {
             && !(app.name.toLowerCase().includes("development")) && !(app.name.toLowerCase().includes("configuration"))
             && !(app.name.toLowerCase().includes("upload")) && !(app.name.toLowerCase().includes("setup"))
             ) {
-            return app;
+                return app;
         }
     })
 
-    return filteredCatalog
+    let filteredCatalog = [];
+
+    // because the .filter method can only return the entire object, an extra step is required
+    catalogFilter.forEach(app => {
+        filteredCatalog.push(app.name);
+    })
+    
+    // sorts the results alphabetically
+    filteredCatalog.sort();
+
+    return filteredCatalog;
 }
 
 // **************************************************************************************

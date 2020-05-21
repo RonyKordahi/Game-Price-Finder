@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams, useLocation } from "react-router-dom"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 import StoreInfo from '../StoreInfo/StoreInfo'
 import { useAuth0 } from "../auth0/auth0"
@@ -15,6 +16,7 @@ function SearchResults() {
     
     const [game, setGame] = useState([]);
     const [favorite, setFavorite] = useState(false);
+    const [links, setLinks] = useState([]);
 
     const {state, actions: {setLoadingStatus, setIdleStatus}} = useContext(FavoriteContext);
 
@@ -47,7 +49,8 @@ function SearchResults() {
                 // sets state status to idle
                 setIdleStatus();
 
-                const {results, isFavorite} = data;
+                const {results, isFavorite, links} = data;
+                setLinks(links);
                 setFavorite(isFavorite);
                 setGame(results);
             })
@@ -75,11 +78,25 @@ function SearchResults() {
                 </div>}
             </Title>
             {/* renders the store information */}
-            {game.map((store, index) => {
+            {game && 
+            <> {game.map((store, index) => {
                 return <Container key={Math.random() * 10000000} className={index === (game.length - 1) && "last"} >
                     <StoreInfo store={store} />
                 </Container>
             })}
+            </>}
+            {links && 
+            <LinkWrapper> 
+                {links.map((appName, index) => {
+                    return <>
+                        <div key={Math.random() * 10000000}>
+                            <Link className="hover" to={state.status === "idle" && `/results/${appName}/${steam}/${humble}/${gmg}/${gog}`}> 
+                                {appName}
+                            </Link>
+                        </div>
+                    </>
+                })}
+            </LinkWrapper>}
             <BackButton />
         </> : 
         <>
@@ -94,6 +111,14 @@ function SearchResults() {
         </>}
     </>)
 }
+
+const LinkWrapper = styled.div `
+    text-align: center;
+    overflow-y: scroll;
+    div {
+        margin: 17px;
+    }
+`
 
 const StyledGif = styled.img `
     margin-top: 100px;
