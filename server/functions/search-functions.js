@@ -2,8 +2,8 @@ const { getSteam, getSteamCatalog } = require("./steam-functions");
 const { getHumble } = require("./humble-functions");
 const { getGMG } = require("./gmg-functions");
 const { getGOG } = require("./gog-functions");
-const { superFilter } = require("../helpers");
 const { checkFavorites } = require("./favorites-functions");
+const { superFilter, steamFilter } = require("../helpers");
 
 const getGame = async req => {
     let { searched, steam, humble, gmg, gog, _id} = req.params;
@@ -16,17 +16,20 @@ const getGame = async req => {
     let results = [];
     let favorites;
 
-    // calls back the function because the API will occasionally return an empty object 
-    // if it has received too many third party pings (many other websites and apps use this API)
+    // calls back the function because the catalog API will occasionally return an empty object 
+    // if it has received too many pings (many other websites and apps use this API)
     do {
         catalog = await getSteamCatalog();
     }
     while(!catalog.length)
     
     // filters through the list of games to remove "pollution" as much as possible
-    let searchedTerm = superFilter(catalog, searched);
+    const searchedTerm = superFilter(catalog, searched);
 
-    if (searchedTerm.length === 1 && searchedTerm[0].toLowerCase() === searched.toLowerCase() || searchedTerm.length === 0) {
+    // filters through the steam app API to return games only
+    const filteredResults = await steamFilter(searchedTerm, searched);
+    
+    if (filteredResults.length === 1 && filteredResults[0].toLowerCase() === searched.toLowerCase()) {
         if (steam === "true") {
             const steamResults = await getSteam(searched, catalog);
             steamResults.name = "Steam";
@@ -68,7 +71,7 @@ const getGame = async req => {
         }    
     }
     else {
-        returnValue = {links: searchedTerm};
+        returnValue = {links: filteredResults};
     }
     
     return returnValue;

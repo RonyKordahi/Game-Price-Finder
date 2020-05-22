@@ -57,8 +57,9 @@ const StyledCheckBox = styled.input `
 `
 
 const StyledSearch = styled.input `
-    width: 80%;
+    width: 75%;
     margin-bottom: 5px;
+    height: 25px;
     background: whitesmoke;
 `
 

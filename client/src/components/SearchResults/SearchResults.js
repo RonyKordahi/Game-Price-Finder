@@ -79,7 +79,7 @@ function SearchResults() {
                 </TitleDisplay>
 
                 {/* sets the favorite status */}
-                {user && <div onClick={() => setFavorite(!favorite)}>
+                {user && game && <div onClick={() => setFavorite(!favorite)}>
                     <FavoriteButton favorite={favorite} userInput={searchedTerm} steam={steam} humble={humble} gmg={gmg} gog={gog} />
                 </div>}
             </Title>

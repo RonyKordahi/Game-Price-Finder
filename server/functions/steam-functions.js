@@ -8,7 +8,7 @@ const getGameInfo = async (appId, searched) => {
     try {
         await request(`https://store.steampowered.com/api/appdetails/?appids=${appId}`)
             .then(res => JSON.parse(res))
-            .then( (data) => {
+            .then(data => {
                 searched = editSearchTerm(searched);
 
                 // will be used to edit the price if found
