@@ -1,4 +1,4 @@
-# Price Check
+# Game Price Finder
 
 This application lets a user search for their favotire games on some of the most popular online video stores and returns the pricing 
 information from those stores. The user is able to log in and save their favorites, which are displayed in the favorites bar on the left. 
