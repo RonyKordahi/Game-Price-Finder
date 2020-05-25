@@ -44,7 +44,7 @@ const MoveFromTop = styled.div `
 `
 
 const HomeLink = styled(Link) `
-    margin-left: 73px;
+    margin-left: 100px;
 `
 const LoginAndOut = styled.span `
     margin-right: 5px;

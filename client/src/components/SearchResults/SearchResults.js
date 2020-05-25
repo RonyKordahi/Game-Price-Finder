@@ -74,12 +74,12 @@ function SearchResults() {
             {/* displays results */}
             <Title>
                 <TitleDisplay>
-                    <span>{`Displaying ${links ? links.length : ""} results for:`}</span>
+                    <span>{`Displaying ${links != undefined ? links.length : ""} results for:`}</span>
                     <span>"{searchedTerm}"</span>
                 </TitleDisplay>
 
                 {/* sets the favorite status */}
-                {user && game && <div onClick={() => setFavorite(!favorite)}>
+                {user && links === undefined && <div onClick={() => setFavorite(!favorite)}>
                     <FavoriteButton favorite={favorite} userInput={searchedTerm} steam={steam} humble={humble} gmg={gmg} gog={gog} />
                 </div>}
             </Title>
@@ -158,7 +158,7 @@ const Container = styled.div `
     border: red solid 2px;
     border-bottom: none;
     width: 700px;
-    margin-left: 200px;
+    margin: auto;
 `
 
 export default SearchResults

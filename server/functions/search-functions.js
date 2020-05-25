@@ -29,7 +29,7 @@ const getGame = async req => {
     // filters through the steam app API to return games only
     const filteredResults = await steamFilter(searchedTerm, searched);
     
-    if (filteredResults.length === 1 && filteredResults[0].toLowerCase() === searched.toLowerCase()) {
+    if (filteredResults.length === 1 && filteredResults[0].toLowerCase() === searched.toLowerCase() || filteredResults.length === 0) {
         if (steam === "true") {
             const steamResults = await getSteam(searched, catalog);
             steamResults.name = "Steam";
